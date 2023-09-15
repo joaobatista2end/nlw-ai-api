@@ -1,0 +1,42 @@
+
+# @name fetch-prompts
+GET http://localhost:3333/prompts
+
+###
+
+# @name upload-video
+POST http://localhost:3333/videos
+Content-Type: multipart/form-data; boundary=----WebkitFormBoundaryFrontier
+
+------WebkitFormBoundaryFrontier
+Content-Disposition: form-data; name="file"; filename="example.mp3"
+Content-Type: audio/mpeg
+
+< ./example.mp3
+------WebkitFormBoundaryFrontier--
+
+###
+
+
+# @name create-transcription
+POST http://localhost:3333/videos/5043c3f7-168e-42e7-9337-d3df79339283/transcription
+Content-Type: application/json
+
+{
+    "prompt": "aumento da pena dos crimes; kim kataguiri; discruso no plenário; crimes no centro de são paulo; insegurança."
+}
+
+###
+
+
+# @name generate-ai-completion
+POST http://localhost:3333/ai/complete
+Content-Type: application/json
+
+{
+    "videoId": "5043c3f7-168e-42e7-9337-d3df79339283",
+    "temperature": 0.5,
+    "prompt": "Gere um resumo susinto para o texto a seguir: '''{transcription}'''"
+}
+
+# "template": "Gere um slide em Markdown, com as seguintes características: - Crie um slide usando a sintaxe Markdown; - Separe os principais pontos do texto em tópicos; - Crie argumentos e aplicações curtas para cada tópico, se possível adicione exemplos;. Para o texto a seguir: '''{transcription}'''"
